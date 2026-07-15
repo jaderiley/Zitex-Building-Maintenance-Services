@@ -1185,6 +1185,241 @@ a.contact__direct-row:hover .contact__direct-value { color: var(--accent); }
 }
 
 /* ============================================================
+   PREMIUM LAYER (2026-07-02) — see claude-dev/UPGRADE_RECIPE.md
+   Everything below is additive: remove this block and the page
+   falls back to the standard template look.
+   ============================================================ */
+
+/* Dark-surface tokens. Defaults suit the "security" palette
+   (navy night + brass keys); per-palette overrides follow. */
+:root {
+  --dk-bg:        #0c1524;
+  --dk-bg-soft:   #131f33;
+  --dk-ink:       #f4f1e9;
+  --dk-ink-soft:  #b9c0cf;
+  --dk-ink-faint: #7d8699;
+  --dk-line:      rgba(244, 241, 233, 0.14);
+  --brass:        #d9a441;
+  --brass-deep:   #b17f24;
+  --brass-soft:   rgba(217, 164, 65, 0.14);
+  --brass-hover:  #e5b658;
+  --brass-glow:   rgba(217, 164, 65, 0.55);
+  --on-brass:     #1a1305;
+}
+
+/* Each trade family gets its own night scene + metal accent. */
+[data-palette="ember"] {   /* plumbers, general: soot + warm copper */
+  --dk-bg: #191009; --dk-bg-soft: #241a11;
+  --brass: #e08b4e; --brass-hover: #eb9f66;
+  --brass-soft: rgba(224, 139, 78, 0.14); --brass-glow: rgba(224, 139, 78, 0.5);
+  --on-brass: #200f04;
+}
+[data-palette="forest"] {  /* tree felling: deep woodland + amber */
+  --dk-bg: #0d1710; --dk-bg-soft: #152219;
+  --brass: #c9a24b; --brass-hover: #d8b465;
+  --brass-soft: rgba(201, 162, 75, 0.14); --brass-glow: rgba(201, 162, 75, 0.5);
+  --on-brass: #171001;
+}
+[data-palette="volt"] {    /* electrical, aircon: near-black + hot gold */
+  --dk-bg: #14110a; --dk-bg-soft: #1e1a10;
+  --brass: #e6b53a; --brass-hover: #f0c65b;
+  --brass-soft: rgba(230, 181, 58, 0.15); --brass-glow: rgba(230, 181, 58, 0.55);
+  --on-brass: #1c1301;
+}
+[data-palette="tide"] {    /* pools, cleaning: deep water + aqua */
+  --dk-bg: #081a1f; --dk-bg-soft: #10262c;
+  --brass: #6fcabf; --brass-hover: #8adcd2;
+  --brass-soft: rgba(111, 202, 191, 0.15); --brass-glow: rgba(111, 202, 191, 0.45);
+  --on-brass: #04211f;
+}
+
+/* ─── Dark cinematic hero ─── */
+.hero--dark {
+  background:
+    radial-gradient(90rem 40rem at 85% -10%, var(--brass-soft), transparent 55%),
+    radial-gradient(60rem 40rem at -10% 110%, rgba(43, 74, 120, 0.35), transparent 60%),
+    linear-gradient(168deg, var(--dk-bg) 0%, var(--dk-bg-soft) 100%);
+  color: var(--dk-ink);
+}
+.hero--dark .hero__bg { display: none; }
+.hero--dark .hero__title { color: var(--dk-ink); }
+.hero--dark .hero__title em { color: var(--brass); }
+.hero--dark .hero__lead { color: var(--dk-ink-soft); }
+.hero--dark .eyebrow { color: var(--brass); }
+.hero--dark .eyebrow::before { background: var(--brass); }
+
+.hero--dark .btn--primary {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: var(--on-brass);
+  box-shadow: 0 10px 30px -10px var(--brass-glow);
+}
+.hero--dark .btn--primary:hover {
+  background: var(--brass-hover);
+  border-color: var(--brass-hover);
+  box-shadow: 0 14px 36px -10px var(--brass-glow);
+}
+.hero--dark .btn--ghost {
+  color: var(--dk-ink);
+  border-color: var(--dk-line);
+}
+.hero--dark .btn--ghost:hover {
+  background: var(--dk-ink);
+  color: var(--dk-bg);
+  border-color: var(--dk-ink);
+}
+
+.hero--dark .trust-strip { color: var(--dk-ink-soft); }
+.hero--dark .trust-strip li { border-right-color: var(--dk-line); }
+.hero--dark .trust-strip li::before { background: var(--brass); }
+
+/* Review card goes glass on dark */
+.hero--dark .hero__card {
+  background: rgba(244, 241, 233, 0.07);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid var(--dk-line);
+  box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.6);
+}
+.hero--dark .hero__card-rating { border-bottom-color: var(--dk-line); }
+.hero--dark .hero__card-text { color: var(--dk-ink-soft); }
+.hero--dark .hero__card-text strong { color: var(--dk-ink); }
+.hero--dark .hero__card-quote { color: var(--dk-ink); }
+.hero--dark .hero__card-cite { color: var(--dk-ink-faint); }
+
+/* Hero photo: framed, graded, part of the night scene */
+.hero--dark .hero__photo img {
+  filter: saturate(0.9) contrast(1.05) brightness(0.94);
+  box-shadow:
+    0 0 0 1px var(--dk-line),
+    0 40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+
+/* Marquee as the dark hero's bottom edge */
+.hero--dark .marquee {
+  background: rgba(0, 0, 0, 0.25);
+  border-top-color: var(--dk-line);
+  border-bottom: 0;
+  color: var(--dk-ink-soft);
+}
+.hero--dark .marquee__track { color: var(--dk-ink-soft); }
+.hero--dark .marquee__track span::after { color: var(--brass); }
+
+/* ─── Scroll reveal (elements get .reveal via JS; observer adds .is-inview) ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 0.9, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.reveal.is-inview {
+  opacity: 1;
+  transform: none;
+}
+/* If JS never runs, nothing is hidden: .reveal is only added by JS. */
+
+/* ─── Blueprint diagrams draw themselves in on scroll ─── */
+.bp-anim .bp-line,
+.bp-anim .bp-accent,
+.bp-anim .bp-dim {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  transition: stroke-dashoffset 1.6s ease 0.15s;
+}
+.bp-anim.is-inview .bp-line,
+.bp-anim.is-inview .bp-accent,
+.bp-anim.is-inview .bp-dim {
+  stroke-dashoffset: 0;
+}
+
+/* ─── Photo grade: mixed stock photos read as one brand ─── */
+.gallery-card__art img,
+.band__img {
+  filter: saturate(0.92) contrast(1.03);
+}
+.gallery-card__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, var(--accent-soft));
+  mix-blend-mode: multiply;
+}
+
+/* ─── Closing CTA band (mirrors the dark hero — bookends the page) ─── */
+.cta-banner {
+  margin: clamp(3rem, 7vw, 5rem) var(--gutter) 0;
+  max-width: var(--max);
+}
+@media (min-width: 1280px) {
+  .cta-banner { margin-left: auto; margin-right: auto; }
+}
+.cta-banner__inner {
+  background:
+    radial-gradient(50rem 20rem at 90% 0%, var(--brass-soft), transparent 60%),
+    linear-gradient(160deg, var(--dk-bg), var(--dk-bg-soft));
+  color: var(--dk-ink);
+  border-radius: var(--radius-lg);
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.5);
+}
+.cta-banner__title {
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  letter-spacing: -0.03em;
+  max-width: 18ch;
+}
+.cta-banner__title em {
+  font-style: italic;
+  color: var(--brass);
+}
+.cta-banner__sub {
+  color: var(--dk-ink-soft);
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  max-width: 44ch;
+}
+.cta-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+.cta-banner .btn--primary {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: var(--on-brass);
+  box-shadow: 0 10px 30px -10px var(--brass-glow);
+}
+.cta-banner .btn--primary:hover {
+  background: var(--brass-hover);
+  border-color: var(--brass-hover);
+}
+.cta-banner .btn--ghost {
+  color: var(--dk-ink);
+  border-color: var(--dk-line);
+}
+.cta-banner .btn--ghost:hover {
+  background: var(--dk-ink);
+  color: var(--dk-bg);
+  border-color: var(--dk-ink);
+}
+
+/* ─── Quality floor ─── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.hero--dark :focus-visible,
+.cta-banner :focus-visible {
+  outline-color: var(--brass);
+}
+
+/* ============================================================
    MOTION REDUCED
    ============================================================ */
 
@@ -1195,4 +1430,14 @@ a.contact__direct-row:hover .contact__direct-value { color: var(--accent); }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .reveal { opacity: 1; transform: none; }
+  .bp-anim .bp-line, .bp-anim .bp-accent, .bp-anim .bp-dim {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
 }
+
+/* ── ForgeLab footer credit (template-wide since 2026-07-06) ── */
+.footer__credit { font-size: .78rem; opacity: .55; }
+.footer__credit a { color: inherit; text-decoration: underline; }
+.footer__credit a:hover { opacity: 1; }

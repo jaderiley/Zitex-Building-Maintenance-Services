@@ -209,6 +209,10 @@ const CONFIG = {
     // ─── CONTACT ───────────────────────────────────────────
     contactTitle: "Tell us about your project.",
     contactLead:  "Describe what you need and we will get back to you with a site visit and quote.",
-    contactPlaceholder: "e.g. bathroom renovation, room addition, waterproofing needed — any details help"
+    contactPlaceholder: "e.g. bathroom renovation, room addition, waterproofing needed — any details help",
+
+    // ─── CLOSING CTA BAND ──────────────────────────────────
+    ctaBannerTitle: "Ready when <em>you are.</em>",
+    ctaBannerSub:   "Call or WhatsApp and we'll help you straight away."
   }
 };
